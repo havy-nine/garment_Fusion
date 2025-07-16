@@ -117,20 +117,6 @@ class WrapFranka:
 
         self.physx = acquire_physx_interface()
         
-    def get_tactile_force(self):
-        """
-        현재 16개 taxel 위치에서 3축 힘 벡터를 읽어 반환
-        Returns: (np.ndarray) shape (16,3)
-        """
-        force_list = []
-        for prim_path in self._taxel_paths:
-            force = self.physx.get_contact_force(prim_path)
-            if force is None:
-                force = Gf.Vec3f(0.0, 0.0, 0.0)
-            force_list.append([force[0], force[1], force[2]])
-        return np.array(force_list, dtype=np.float32)  # shape = (16, 3)
-
-        
     def get_cur_ee_pos(self):
         """
         get current end_effector_position and end_effector orientation

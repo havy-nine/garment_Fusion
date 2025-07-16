@@ -27,7 +27,8 @@ class Point_Cloud_Camera:
         camera_orientation,
         frequency=20,
         resolution=(512, 512),
-        prim_path="/World/point_cloud_camera",
+        camera_prim_path="/World/point_cloud_camera",
+        prim_path="/world/Franka/panda_link7",
         garment_num: int = 1,
         garment_model_pth_path: str = "Env_Config/Model/wm_retrieve_model_finetuned.pth",
     ):
