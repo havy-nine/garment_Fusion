@@ -11,9 +11,6 @@ class Config:
         # sequence:"XYZ", input degrees, e.g.[0.0, 0.0, 90.0]
         self.robot_orientation = [0.0, 0.0, 0.0]
 
-        # ------------initial ee position ------------#
-        self.robot_ini_pose
-        
         # franka move positions sequence
         self.target_positions = [
             [-0.15, -0.05, 0.55],  # Enter Wash Machine
@@ -24,7 +21,6 @@ class Config:
         # ------------Wash_Machine Config------------ #
         self.wm_position = [-0.05, 0.0, 0.58]  # sequence:"XYZ"
 
-        
         # sequence:"XYZ", input degrees, e.g.[0.0, 0.0, 90.0]
         self.wm_orientation = [0.0, 0.0, 0.0]
 
