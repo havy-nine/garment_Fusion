@@ -17,7 +17,7 @@ from omni.isaac.motion_generation.lula import RmpFlow
 from pxr import UsdGeom, UsdLux, Sdf, Gf, Vt, Usd, UsdPhysics, PhysxSchema
 
 from omni.isaac.core.utils.prims import create_prim
-from omni.isaac.core.utils.physics import set_rigid_body, set_collision
+from omni.isaac.core.utils.physics import set_rigid_body_enabled, set_collision
 from omni.physx import acquire_physx_interface
 
 from omni.isaac.motion_generation.articulation_motion_policy import (
@@ -116,6 +116,20 @@ class WrapFranka:
                 self._taxel_paths.append(prim_path)
 
         self.physx = acquire_physx_interface()
+        
+    def get_tactile_force(self):
+        """
+        현재 16개 taxel 위치에서 3축 힘 벡터를 읽어 반환
+        Returns: (np.ndarray) shape (16,3)
+        """
+        force_list = []
+        for prim_path in self._taxel_paths:
+            force = self.physx.get_contact_force(prim_path)
+            if force is None:
+                force = Gf.Vec3f(0.0, 0.0, 0.0)
+            force_list.append([force[0], force[1], force[2]])
+        return np.array(force_list, dtype=np.float32)  # shape = (16, 3)
+
         
     def get_cur_ee_pos(self):
         """

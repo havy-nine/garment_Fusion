@@ -17,7 +17,7 @@ import torch
 # from isaacsim import SimulationApp
 from omni.isaac.kit import SimulationApp
 
-simulation_app = SimulationApp({"headless": False})
+simulation_app = SimulationApp({"headless": True})
 
 # ---------------------coding begin---------------------#
 import numpy as np

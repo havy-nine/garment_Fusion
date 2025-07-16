@@ -12,7 +12,7 @@ class Config:
         self.robot_orientation = [0.0, 0.0, 0.0]
 
         # ------------initial ee position ------------#
-        self.robot_ini_pose
+        self.robot_ini_pose = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
         
         # franka move positions sequence
         self.target_positions = [

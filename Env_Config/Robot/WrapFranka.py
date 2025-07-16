@@ -16,10 +16,6 @@ from omni.isaac.core.utils.rotations import euler_angles_to_quat
 from omni.isaac.motion_generation.lula import RmpFlow
 from pxr import UsdGeom, UsdLux, Sdf, Gf, Vt, Usd, UsdPhysics, PhysxSchema
 
-from omni.isaac.core.utils.prims import create_prim
-from omni.isaac.core.utils.physics import set_rigid_body, set_collision
-from omni.physx import acquire_physx_interface
-
 from omni.isaac.motion_generation.articulation_motion_policy import (
     ArticulationMotionPolicy,
 )
@@ -95,42 +91,7 @@ class WrapFranka:
         initialize robot
         """
         self._robot.initialize()
-        
-    def add_tactile_sensor_to_gripper(self):
-        """
-        Gripper(panda_hand) 프레임 아래에 4×4 Sphere taxel 생성 + 물리 활성화
-        """
-        parent_path = f"{self._franka_prim_path}/panda_rightfinger"
-        spacing = 0.01
-        self._taxel_paths = []
-        for i in range(4):
-            for j in range(4):
-                name = f"taxel_{i}_{j}"
-                x = -0.015 + i * spacing
-                y = -0.015 + j * spacing
-                z = 0.0
-                prim_path = f"{parent_path}/{name}"
-                create_prim(prim_path, "Sphere", translation=Gf.Vec3f(x, y, z), attributes={"radius": 0.0015})
-                set_rigid_body(prim_path, kinematic=False)
-                set_collision(prim_path, True)
-                self._taxel_paths.append(prim_path)
 
-        self.physx = acquire_physx_interface()
-        
-    def get_tactile_force(self):
-        """
-        현재 16개 taxel 위치에서 3축 힘 벡터를 읽어 반환
-        Returns: (np.ndarray) shape (16,3)
-        """
-        force_list = []
-        for prim_path in self._taxel_paths:
-            force = self.physx.get_contact_force(prim_path)
-            if force is None:
-                force = Gf.Vec3f(0.0, 0.0, 0.0)
-            force_list.append([force[0], force[1], force[2]])
-        return np.array(force_list, dtype=np.float32)  # shape = (16, 3)
-
-        
     def get_cur_ee_pos(self):
         """
         get current end_effector_position and end_effector orientation
