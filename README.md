@@ -49,13 +49,13 @@ self.annotator = rep.AnnotatorRegistry.get_annotator("pointcloud")
 - 모델 기반일 때 출력 분포를 검사해 “stir(휘젓기)”가 필요하면 stir()로 진입.
 - 선택된 점에 attach 블록 부착 후 픽 포인트 반환.
 - stir(...)
-	1.	포인트클라우드 취득 →
-	2.	pick_point(random=False)로 후보 결정 →
-	3.	스레드로 바닥 접촉 판정 시작 →
-	4.	franka.fetch_garment_from_washing_machine(...) 실행 →
-	5.	그리퍼 오픈/부착 해제 →
+	1.	포인트클라우드 취득 
+	2.	pick_point(random=False)로 후보 결정 
+	3.	스레드로 바닥 접촉 판정 시작 
+	4.	franka.fetch_garment_from_washing_machine(...) 실행 
+	5.	그리퍼 오픈/부착 해제 
 	6.	의류 현재 포즈 측정 → **성공/실패 판정(wm_judge_final_poses)**으로 남은 의류 인덱싱 갱신.
-- 모든 의류 처리 후 self.point_cloud is None이면 성공 메시지 찍고 simulation_app.close() (여기 break/return이 없어 이후 코드가 계속 돌 수 있는 점은 개선 포인트).
+- 모든 의류 처리 후 self.point_cloud is None이면 성공 메시지 찍고 simulation_app.close()
 
 엔트리포인트(if __name__ == "__main__":)
 	1.	env = washmachineEnv()로 위 asset(garment)/모델 전부 로드.
