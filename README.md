@@ -1,3 +1,47 @@
+## README
+설치는 garmentpile github 그대로 진행. 
+### 각 basket, washmachin_retrive.py 로직, 현재 basket, wm 에서 배경 불러오는 부분 주석 처리. 
+- garment_into_machine()
+중력 방향을 시간에 따라 바꿔(x,z 성분 조절) 옷이 드럼 안으로 흘러 들어가게 함. 수백 스텝 simulation_app.update()로 시뮬레이션 진행 후 다시 표준 중력으로 복귀.
+- remove_conveyor_belt()
+컨베이어 프림 삭제, 문 위치 수정, 한 스텝 렌더.
+- create_attach_block() / set_attach_to_garment()
+그리퍼 끝에 붙을 AttachmentBlock 생성 및 충돌 그룹 갱신 → 특정 3D 위치로 이동해 의류에 “부착” 처리.
+- get_point_cloud_data()
+몇 스텝 렌더 후 Point_Cloud_Camera로 point cloud + colors 획득. 원하면 PLY로 저장.
+- pick_point(random=True)
+- 랜덤/모델 기반으로 픽 점 결정.
+- 모델 기반일 때 출력 분포를 검사해 “stir(휘젓기)”가 필요하면 stir()로 진입.
+- 선택된 점에 attach 블록 부착 후 픽 포인트 반환.
+- stir(...)
+	1.	포인트클라우드 취득 →
+	2.	pick_point(random=False)로 후보 결정 →
+	3.	스레드로 바닥 접촉 판정 시작 →
+	4.	franka.fetch_garment_from_washing_machine(...) 실행 →
+	5.	그리퍼 오픈/부착 해제 →
+	6.	의류 현재 포즈 측정 → **성공/실패 판정(wm_judge_final_poses)**으로 남은 의류 인덱싱 갱신.
+- 모든 의류 처리 후 self.point_cloud is None이면 성공 메시지 찍고 simulation_app.close() (여기 break/return이 없어 이후 코드가 계속 돌 수 있는 점은 개선 포인트).
+
+엔트리포인트(if __name__ == "__main__":)
+	1.	env = washmachineEnv()로 위 asset(garment)/모델 전부 로드.
+	2.	Franka를 잠시 비가시화, env.world.reset(), 두 카메라 initialize().
+	3.	의류 유입 시퀀스: garment_into_machine().
+	4.	의류 물성 튜닝: 마찰/접착 스케일 조정.
+	5.	컨베이어 제거 → 부착 블록 생성/세팅.
+	6.	본 루프: pick_multiple_times()로 반복 픽·플→성공여부 기록.
+	7.	몇 스텝 더 진행 후 시뮬레이터 종료.
+
+flow
+- Point_Cloud_Camera → point_cloud (N×3)
+- 모델 3종:
+- Retrieve: 집기 난이도/상태 평가 (stir 판단 보조)
+- Pick: point_cloud에서 픽 인덱스 산출
+- Place: pick + 현재 점군을 입력해 플레이스 위치 산출
+- Franka 래퍼가 해당 위치로 경로계획/실행.
+- 판정: wm_judge_final_poses로 성공/실패 로깅 및 다음 반복 여부 결정.
+
+
+
 <h2 align="center">
   <b><tt>GarmentPile</tt>: <br>
   Point-Level Visual Affordance Guided Retrieval and Adaptation for Cluttered Garments Manipulation</b>
