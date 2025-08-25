@@ -316,11 +316,11 @@ class BaseEnv:
                 sample_flag=True,
                 sample_num=4096,
                 save_flag=True,
-                save_path="Data/Basket/Retrieve/point_cloud/pointcloud",
+                save_path="/media/eric/T31/Data/Basket/Retrieve/point_cloud/pointcloud",
             )
             if self.rgb_flag:
                 self.point_cloud_camera.get_rgb_graph(
-                    save_path="Data/Basket/Retrieve/rgb/rgb"
+                    save_path="/media/eric/T31/Data/Basket/Retrieve/rgb/rgb"
                 )
             # get pick point
             if self.random_flag:
@@ -333,7 +333,7 @@ class BaseEnv:
             self.id = self.point_cloud_camera.semantic_id
             cprint(f"picking {self.cur}", "cyan")
 
-            with open("Data/Basket/Retrieve/Record.txt", "a") as file:
+            with open("/media/eric/T31/Data/Basket/Retrieve/Record.txt", "a") as file:
                 file.write(f"{pick_point[0]} {pick_point[1]} {pick_point[2]} ")
 
             # set attach block and pick
@@ -342,7 +342,7 @@ class BaseEnv:
             fetch_result = self.franka.fetch_garment_from_basket(
                 self.config.target_positions,
                 self.attach,
-                error_record_file="Data/Basket/Retrieve/Record.txt",
+                error_record_file="/media/eric/T31/Data/Basket/Retrieve/Record.txt",
             )
             if not fetch_result:
                 cprint("fetch current point failed", "red")
@@ -368,7 +368,7 @@ class BaseEnv:
                 garment_cur_poses,
                 garment_cur_index,
                 self.garment_index,
-                save_path="Data/Basket/Retrieve/Record.txt",
+                save_path="/media/eric/T31/Data/Basket/Retrieve/Record.txt",
             )
 
             for i in range(25):

@@ -725,7 +725,7 @@
         "~/.local/share/ov/pkg/isaac-sim-2023.1.1/kit/python/lib/python3.10/site-packages",
 ],
 
-    "python.languageServer": "Pylance",
+    "python.languageServer": "None",
     "python.defaultInterpreterPath": "~/.local/share/ov/pkg/isaac-sim-2023.1.1/kit/python/bin/python3",
     // python.pythonPath is deprecated
     // "python.pythonPath": "${workspaceFolder}/kit/python/bin/python3",

@@ -136,15 +136,15 @@ class BaseEnv:
             self.config.chair_prim_path,
         )
 
-        delete_prim(f"/World/Base_Layer")
-        # load base_layer
-        self.base_layer = Wrap_base(
-            self.config.base_layer_position,
-            self.config.base_layer_orientation,
-            self.config.base_layer_scale,
-            self.config.base_layer_usd_path,
-            self.config.base_layer_prim_path,
-        )
+        # delete_prim(f"/World/Base_Layer")
+        # # load base_layer
+        # self.base_layer = Wrap_base(
+        #     self.config.base_layer_position,
+        #     self.config.base_layer_orientation,
+        #     self.config.base_layer_scale,
+        #     self.config.base_layer_usd_path,
+        #     self.config.base_layer_prim_path,
+        # )
 
         delete_prim(f"/World/Room")
         # load room
@@ -686,15 +686,15 @@ if __name__ == "__main__":
         #     env.random_pick_place()
 
         # env.pick_whole_procedure()
-
-        env.model_pick_whole_procedure()
+#
+ #       env.model_pick_whole_procedure()
 
         # env.recording_camera.create_gif()
 
         # while simulation_app.is_running():
         #     simulation_app.update()
 
-        env.world.clear_instance()
+  #      env.world.clear_instance()
 
 
 # ---------------------coding ending---------------------#

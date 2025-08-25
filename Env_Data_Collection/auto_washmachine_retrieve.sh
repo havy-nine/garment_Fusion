@@ -3,9 +3,9 @@
 random_flag=True   # define whether to use random stir (random pick random place) or random pick model place
 model_path=None   # if random pick model place, define the model path
 rgb_flag=True    # define whether to collect rgb image
-gif_flag=False    # define whether to collect gif image
+gif_flag=True    # define whether to collect gif image
 
-collect_epoch=5  # define the number of epochs to collect data
+collect_epoch=1  # define the number of epochs to collect data
 
 
 TARGET_DIR="Data/WashMachine/Retrieve"

@@ -76,8 +76,8 @@ def train(**kwargs):
     model.apply(inplace_relu)
 
     # ---------second step: load data---------#
-    train_data = DataLoader_AffModel(mode="train", data_dir="Data/Basket/Retrieve")
-    val_data = DataLoader_AffModel(mode="val", data_dir="Data/Basket/Retrieve")
+    train_data = DataLoader_AffModel(mode="train", data_dir="/media/eric/T31/Data/Basket/Retrieve")
+    val_data = DataLoader_AffModel(mode="val", data_dir="/media/eric/T31/Data/Basket/Retrieve")
     train_dataloader = torch.utils.data.DataLoader(
         dataset=train_data,
         batch_size=opt.batch_size,
