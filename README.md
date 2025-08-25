@@ -18,6 +18,13 @@ bash Env_Data_Collection/auto_washmachine_retrieve.sh
 # basket
 bash Env_Data_Collection/auto_basket_retrieve.sh
 ```
+Env_Config/Camera/*_point_cloud_Camera.py를 보면 
+```
+self.camera.add_pointcloud_to_frame(include_unlabelled=False)
+self.annotator = rep.AnnotatorRegistry.get_annotator("pointcloud")  # (기본값도 unlabeled 제외)
+```
+- initialize()에서 세탁기/로봇/룸에 시맨틱 라벨을 안 붙였기 때문에, get_point_cloud_data()는 point_cloud는 garment만 찍음
+- get_pointcloud_with_washing_machine() 사용하면 wm도 찍기 가능. 
 저장은 rgb, gif, pcd 저장 -> affordance 학습에 사용가능
 - 저자한테 물어봤는데 we use about 6 RTX 4090 for data collection, and run 2 process on each GPU. It takes about 5 days to get retrieval data. 라고 함.
 - 배경 지우고, 로봇이랑 garment를 한 issac-sim에서 멀티로 불러오게 코드 수정 할 수 있을 듯함.
