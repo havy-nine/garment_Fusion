@@ -1,12 +1,40 @@
 ## README
-설치는 garmentpile github 그대로 진행. 
-### 각 basket, washmachin_retrive.py 로직, 현재 basket, wm 에서 배경 불러오는 부분 주석 처리. 
+설치는 garmentpile github 그대로 진행. 그대로 실행하면 physics등 안되는 부분있어서 맞춰둠.
+issac-sim 2023.1.1 사용 필
+
+각 셀 스크립트 확인,
+random_flag: random pick, random place -> 학습할 때 
+model_path: eval 할 때
+rgb_flag: rgb 저장
+gif_flag: gif 저장
+TARGET_DIR : 저장 위치 설정
+collect_epoch: 저장 scene 개수
+
+/.local/share/ov/pkg/isaac-sim-2023.1.1/python.sh 로 issac-sim 실행해야됨. 
+```bash
+# washmachine
+bash Env_Data_Collection/auto_washmachine_retrieve.sh
+
+# basket
+bash Env_Data_Collection/auto_basket_retrieve.sh
+```
+저장은 rgb, gif, pcd 저장 -> affordance 학습에 사용가능
+- 저자한테 물어봤는데 we use about 6 RTX 4090 for data collection, and run 2 process on each GPU. It takes about 5 days to get retrieval data. 라고 함.
+- 배경 지우고, 로봇이랑 garment를 한 issac-sim에서 멀티로 불러오게 코드 수정 할 수 있을 듯함.
+- 데이터 모을 때 Env_Data_Collection/*.py 에서 headless
+  '''simulation_app = SimulationApp({"headless": False})''' 
+
+  
+### 각 Env_Data_collection/basket, washmachin_retrive.py 로직,
+3060에서 vram 애매함 + 속도 증가를 위해 현재 basket, wm 에서 배경 불러오는 부분 주석 처리. 
+
+
 - garment_into_machine()
 중력 방향을 시간에 따라 바꿔(x,z 성분 조절) 옷이 드럼 안으로 흘러 들어가게 함. 수백 스텝 simulation_app.update()로 시뮬레이션 진행 후 다시 표준 중력으로 복귀.
 - remove_conveyor_belt()
 컨베이어 프림 삭제, 문 위치 수정, 한 스텝 렌더.
 - create_attach_block() / set_attach_to_garment()
-그리퍼 끝에 붙을 AttachmentBlock 생성 및 충돌 그룹 갱신 → 특정 3D 위치로 이동해 의류에 “부착” 처리.
+그리퍼 끝에 붙을 AttachmentBlock (<< garmentlab은 point로 garment 구현해서 없으면 pick 잘 안됨) 생성 및 충돌 그룹 갱신 → 특정 3D 위치로 이동해 의류에 “부착” 처리.
 - get_point_cloud_data()
 몇 스텝 렌더 후 Point_Cloud_Camera로 point cloud + colors 획득. 원하면 PLY로 저장.
 - pick_point(random=True)
